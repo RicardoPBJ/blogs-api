@@ -9,6 +9,7 @@
   "dependencies": {
     "express": "4.18.2",
     "express-async-errors": "3.1.1",
+    "http-errors": "2.0.0",
     "joi": "17.6.0",
     "jsonwebtoken": "9.0.0",
     "morgan": "1.10.0",
@@ -18,6 +19,7 @@
   },
   "main": "src/server.js",
   "scripts": {
+    "db:restore": "npm run drop && npm run restart && npm run seed",
     "prestart": "npx sequelize-cli db:create && npx sequelize-cli db:migrate",
     "start": "node .",
     "start:test": "API_PORT=3030 NODE_ENV=test node .",
