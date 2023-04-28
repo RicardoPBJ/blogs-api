@@ -17,6 +17,14 @@ const addUser = async (body) => {
   return token;
 };
 
+const getAllUsers = async () => {
+  const result = await models.User.findAll({
+    attributes: { exclude: 'password' },
+  });
+  return result;
+};
+
 module.exports = {
   addUser,
+  getAllUsers,
 };
