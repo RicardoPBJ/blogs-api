@@ -2,7 +2,7 @@ module.exports = (sequelize, DataTypes) => {
 	const PostCategoryTable = sequelize.define('PostCategory', {
 		postId: {
 			type: DataTypes.INTEGER,
-      field: 'user_id',
+      field: 'post_id',
 			allowNull: false,
 		},
     categoryId: {

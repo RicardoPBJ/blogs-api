@@ -1,10 +1,8 @@
 const { errorContent } = require('../utils');
 const models = require('../models');
 
-const addPost = async ({ title, content, categoryIds }, { user }) => {
+const addPost = async ({ title, content, categoryIds }, user) => {
   const categories = await models.Category.findAll({ where: { id: categoryIds } });
-
-  console.log(categories);
   
   if (categoryIds.length !== categories.length) {
     throw errorContent(400, 'one or more "categoryIds" not found');
@@ -19,14 +17,11 @@ const addPost = async ({ title, content, categoryIds }, { user }) => {
   const postCreation = await models.BlogPost.create(post);
   
   const postCategories = categoryIds
-    .map((id) => ({ postId: postCreation.id, id }));
+    .map((id) => ({ postId: postCreation.id, categoryId: id }));
 
   await models.PostCategory.bulkCreate(postCategories);
-  
-  console.log(postCreation);
-  console.log(post);
-  
-  return postCreation;
+
+  return postCreation.dataValues;
 };
 
 module.exports = {
