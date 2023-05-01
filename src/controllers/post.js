@@ -12,6 +12,18 @@ const addPost = async (req, res, next) => {
   }
 };
 
+const getAllPosts = async ({ user }, res, next) => {
+  try {
+    console.log(user.id);
+    const result = await postService.getAllPosts(user.id);
+    
+    return res.status(200).json(result);
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   addPost,
+  getAllPosts,
 };

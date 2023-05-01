@@ -24,6 +24,19 @@ const addPost = async ({ title, content, categoryIds }, user) => {
   return postCreation.dataValues;
 };
 
+const getAllPosts = async (userId) => {
+  const result = await models.BlogPost.findAll({
+    where: { userId },
+    include: [
+      { model: models.User, as: 'user', attributes: { exclude: ['password'] } },
+      { model: models.Category, through: { attributes: [] }, as: 'categories' },
+    ],  
+  });
+
+  return result;
+};
+
 module.exports = {
   addPost,
+  getAllPosts,
 };

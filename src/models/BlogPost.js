@@ -4,7 +4,6 @@ module.exports = (sequelize, DataTypes) => {
 			type: DataTypes.INTEGER,
 			primaryKey: true,
 			autoIncrement: true,
-			allowNull: false,
 		},
 		title: DataTypes.STRING,
 		content: DataTypes.STRING,
@@ -12,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
       field: 'user_id',
+      foreignKey: true,
     },
     updated: {
       type: DataTypes.DATE,
