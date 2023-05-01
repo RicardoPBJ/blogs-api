@@ -14,8 +14,17 @@ const addPost = async (req, res, next) => {
 
 const getAllPosts = async ({ user }, res, next) => {
   try {
-    console.log(user.id);
     const result = await postService.getAllPosts(user.id);
+    
+    return res.status(200).json(result);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const getPostById = async ({ params }, res, next) => {
+  try {
+    const result = await postService.getPostById(params.id);
     
     return res.status(200).json(result);
   } catch (error) {
@@ -26,4 +35,5 @@ const getAllPosts = async ({ user }, res, next) => {
 module.exports = {
   addPost,
   getAllPosts,
+  getPostById,
 };
