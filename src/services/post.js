@@ -36,9 +36,9 @@ const getAllPosts = async (userId) => {
   return result;
 };
 
-const getPostById = async (postId) => {
+const getPostById = async (userId) => {
   const result = await models.BlogPost.findOne({
-    where: { id: postId },
+    where: { id: userId },
     include: [
       { model: models.User, as: 'user', attributes: { exclude: ['password'] } },
       { model: models.Category, through: { attributes: [] }, as: 'categories' },
@@ -48,8 +48,22 @@ const getPostById = async (postId) => {
   return result;
 };
 
+const editPostById = async ({ title, content }, _postId, userId) => {
+  const [update] = await models.BlogPost.update({ title, content }, { where: { userId } });
+  const result = await models.BlogPost.findOne({
+    where: { id: userId },
+    include: [
+      { model: models.User, as: 'user', attributes: { exclude: ['password'] } },
+      { model: models.Category, through: { attributes: [] }, as: 'categories' },
+    ],  
+  });
+  if (!update) throw errorContent(401, 'Unauthorized user');
+  return result;
+};
+
 module.exports = {
   addPost,
   getAllPosts,
   getPostById,
+  editPostById,
 };

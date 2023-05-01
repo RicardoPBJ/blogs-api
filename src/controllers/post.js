@@ -32,8 +32,19 @@ const getPostById = async ({ params }, res, next) => {
   }
 };
 
+const editPostById = async ({ body, params, user }, res, next) => {
+  try {
+    const result = await postService.editPostById(body, params.id, user.id);
+    
+    return res.status(200).json(result);
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   addPost,
   getAllPosts,
   getPostById,
+  editPostById,
 };
