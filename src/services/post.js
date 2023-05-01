@@ -49,7 +49,7 @@ const getPostById = async (userId) => {
 };
 
 const editPostById = async ({ title, content }, _postId, userId) => {
-  const [update] = await models.BlogPost.update({ title, content }, { where: { userId } });
+  const [update] = await models.BlogPost.update({ title, content }, { where: { userId } }); 
   const result = await models.BlogPost.findOne({
     where: { id: userId },
     include: [
@@ -61,9 +61,20 @@ const editPostById = async ({ title, content }, _postId, userId) => {
   return result;
 };
 
+const deletePostById = async (postId, userId) => {
+  const findPost = await models.BlogPost.findOne({ where: { id: postId } });
+
+  if (!findPost) throw errorContent(404, 'Post does not exist');
+  
+  const deletePost = await models.BlogPost.destroy({ where: { userId, id: postId } });
+
+  if (!deletePost) throw errorContent(401, 'Unauthorized user');
+};
+
 module.exports = {
   addPost,
   getAllPosts,
   getPostById,
   editPostById,
+  deletePostById,
 };
