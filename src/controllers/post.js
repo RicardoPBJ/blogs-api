@@ -44,9 +44,8 @@ const editPostById = async ({ body, params, user }, res, next) => {
 
 const deletePostById = async ({ params, user }, res, next) => {
   try {
-    await postService.deletePostById(params.id, user.id);
-    
-    return res.status(204).json();
+    const result = await postService.deletePostById(params.id, user.id);
+    return res.status(204).json(result);
   } catch (error) {
     next(error);
   }

@@ -35,8 +35,14 @@ const getUsersById = async (id) => {
   return result;
 };
 
+const deleteUsersById = async (id) => {
+  const result = await models.User.destroy({ where: { id } });
+  if (!result) throw errorContent(404, 'User does not exist');
+};
+
 module.exports = {
   addUser,
   getAllUsers,
   getUsersById,
+  deleteUsersById,
 };
